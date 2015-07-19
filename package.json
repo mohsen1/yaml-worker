@@ -1,0 +1,31 @@
+{
+  "name": "yaml-worker",
+  "version": "1.1.0",
+  "description": "JS-YAML and YAML-JS wrapper with Worker API",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ",
+    "build": "browserify index.js  > browser.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohsen1/yaml-worker.git"
+  },
+  "keywords": [
+    "YAML",
+    "Woker"
+  ],
+  "author": "Mohsen Azimi <me@azimi.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mohsen1/yaml-worker/issues"
+  },
+  "homepage": "https://github.com/mohsen1/yaml-worker#readme",
+  "dependencies": {
+    "js-yaml": "^3.3.1",
+    "yaml-js": "^0.1.1"
+  },
+  "devDependencies": {
+    "browserify": "^11.0.0"
+  }
+}
