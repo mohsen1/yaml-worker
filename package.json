@@ -4,7 +4,7 @@
   "description": "JS-YAML and YAML-JS wrapper with Worker API",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ",
+    "test": "karma start",
     "build": "browserify index.js  > browser.js"
   },
   "repository": {
@@ -26,6 +26,10 @@
     "yaml-js": "^0.1.1"
   },
   "devDependencies": {
-    "browserify": "^11.0.0"
+    "browserify": "^11.0.0",
+    "karma": "^0.13.2",
+    "karma-cli": "^0.1.0",
+    "karma-mocha": "^0.2.0",
+    "mocha": "^2.2.5"
   }
 }
