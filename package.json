@@ -4,7 +4,8 @@
   "description": "JS-YAML and YAML-JS wrapper with Worker API",
   "main": "index.js",
   "scripts": {
-    "test": "karma start",
+    "pretest": "npm run build",
+    "test": "karma start --single-run",
     "build": "browserify index.js  > browser.js"
   },
   "repository": {
@@ -29,7 +30,9 @@
     "browserify": "^11.0.0",
     "karma": "^0.13.2",
     "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.2.0",
     "karma-cli": "^0.1.0",
+    "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
     "mocha": "^2.2.5"
   }

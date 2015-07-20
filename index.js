@@ -10,7 +10,7 @@ var JSYAML = require('js-yaml');
  * `message` is an array. first argument in the array is the method name string
  * and the rest of items are arguments to that method
  */
-this.onmessage = function onmessage(message) {
+onmessage = function onmessage(message) {
 
   if (!Array.isArray(message.data) || message.data.length < 2) {
     throw new TypeError('data should be an array with method and arguments');
@@ -21,9 +21,9 @@ this.onmessage = function onmessage(message) {
   var result = null;
 
   if (typeof JSYAML[method] === 'function') {
-    result = JSYAML[method].apply(args);
+    result = JSYAML[method].apply(null, args);
   } else if (typeof YAMLJS[method] === 'function') {
-    result = YAMLJS[method].apply(args);
+    result = YAMLJS[method].apply(null, args);
   } else {
     throw new TypeError('bad method name');
   }

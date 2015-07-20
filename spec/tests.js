@@ -20,7 +20,8 @@ describe('YAML Wroker', function () {
     YAMLWoker.postMessage(['load', 'val: 1']);
 
     YAMLWoker.onmessage = function (message) {
-      expect(message.data).to.deepEqual({val: 1});
+      var result = JSON.parse(message.data);
+      expect(result).to.deep.equal({val: 1});
       done();
     };
   });

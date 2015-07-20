@@ -25,7 +25,7 @@ var YAMLWorker = new Worker('/path/to/yaml-worker.js');
 YAMLWorker.postMessage(['load', 'value: 1']);
 
 YAMLWorker.onmessage = function(message) {
-  console.log('Result is ', message.data);
+  console.log('Result is ', JSON.parse(message.data));
 };
 ```
 
