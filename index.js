@@ -28,11 +28,12 @@ chunks=[];while(true){prefix=this.prefix(3);if(prefix==="---"||prefix==="..."&&(
       blob = blob.getBlob();
   }
   this.worker = new Worker(URL.createObjectURL(blob));
+  this.queue = [];
+  this.worker.onmessage = this.onmessage.bind(this);
+  this.worker.onerror = this.onerror.bind(this);
 }
 
-
-
-var methods = [
+[
   'load',
   'loadAll',
   'safeLoad',
@@ -48,15 +49,41 @@ var methods = [
   'serialize',
   'serialize_all',
   'dump_all'
-];
-
-methods.forEach(function (method) {
-
+].forEach(function (method) {
   YAMLWorker.prototype[method] = function (arg, cb) {
-    this.worker.onmessage = function(message) {
-      cb(null, JSON.parse(message.data));
-    };
-    this.worker.onerror = cb;
-    this.worker.postMessage([method, arg]);
+    this.queue.push({
+      method: method,
+      arg: arg,
+      cb: cb
+    });
+    this.enqueue();
   };
 });
+
+YAMLWorker.prototype.enqueue = function() {
+
+  // if queue is empty do nothing.
+  if (!this.queue.length) {
+    return;
+  }
+
+  // if there is a currentTask do nothing
+  if (this.currentTask) {
+    return;
+  }
+
+  this.currentTask = this.queue.shift();
+  this.worker.postMessage([this.currentTask.method, this.currentTask.arg]);
+};
+
+YAMLWorker.prototype.onmessage = function(message) {
+  this.currentTask.cb(null, JSON.parse(message.data));
+  this.currentTask = null;
+  this.enqueue();
+};
+
+YAMLWorker.prototype.onerror = function(error) {
+  this.currentTask.cb(error);
+  this.currentTask = null;
+  this.enqueue();
+};
