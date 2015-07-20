@@ -10,23 +10,20 @@ Install using Bower or npm
 npm install --save yaml-worker
 ```
 
-
 ```
 bower install --save yaml-worker
 ```
 
 #### Usage
 
-When calling `postMessage`, pass an array which first element in array is the method name and the rest are arguments for that method.
+Use `YAMLWorker`:
 
 ```js
-var YAMLWorker = new Worker('/path/to/yaml-worker.js');
+var worker = new YAMLWorker();
 
-YAMLWorker.postMessage(['load', 'value: 1']);
-
-YAMLWorker.onmessage = function(message) {
-  console.log('Result is ', JSON.parse(message.data));
-};
+worker.load('yaml: true', function(error, result) {
+  console.log(result); // {"yaml": true}
+});
 ```
 
 ### License

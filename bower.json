@@ -1,6 +1,6 @@
 {
   "name": "yaml-worker",
-  "main": "browser.js",
+  "main": "index.js",
   "version": "1.0.0",
   "authors": [
     "Mohsen Azimi <me@azimi.me>"

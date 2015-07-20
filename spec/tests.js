@@ -1,41 +1,35 @@
 'use strict';
 
+var worker;
+
 describe('YAML Wroker', function () {
 
-  var YAMLWoker;
-
-  it('creates the worker', function() {
-    var error;
-
-    try {
-      YAMLWoker = new Worker('base/browser.js');
-    } catch(err) {
-      error = err;
-    }
-
-    expect(error).to.be.undefined;
+  before(function () {
+    worker = new YAMLWorker();
   })
 
   it('#load', function (done) {
-
-    YAMLWoker.onmessage = function (message) {
-      var result = JSON.parse(message.data);
+    worker.load('val: 1', function (err, result) {
+      expect(err).to.be.null;
       expect(result).to.deep.equal({val: 1});
       done();
-    };
-
-    YAMLWoker.postMessage(['load', 'val: 1']);
+    })
   });
 
   it('#compose', function (done) {
-
-    YAMLWoker.onmessage = function (message) {
-      var result = JSON.parse(message.data);
+    worker.compose('val: 1', function (err, result) {
+      expect(err).to.be.null;
       expect(result).to.have.property('tag');
       expect(result).to.have.property('value');
       done();
-    };
+    });
+  });
 
-    YAMLWoker.postMessage(['compose', 'val: 1']);
-  })
+  it('#dump', function (done) {
+    worker.dump({val:1}, function (err, result) {
+      expect(err).to.be.null;
+      expect(result).to.equal('val: 1\n');
+      done();
+    });
+  });
 })

@@ -6,9 +6,11 @@
   "scripts": {
     "pretest": "npm run build",
     "test": "karma start --single-run",
-    "build": "browserify index.js  > browser.js",
-    "minify": "uglifyjs browser.js > browser.min.js",
-    "prepublish": "npm run build; npm run minify; npm test"
+    "browserify": "browserify worker.js  > browser-worker.js",
+    "prebuild": "npm run browserify; npm run minify",
+    "build": "node build.script.js",
+    "minify": "uglifyjs browser-worker.js > browser-worker.min.js",
+    "prepublish": "npm run build; npm test"
   },
   "repository": {
     "type": "git",
@@ -37,6 +39,7 @@
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
     "karma-mocha-reporter": "^1.0.2",
+    "lodash": "^3.10.0",
     "mocha": "^2.2.5",
     "uglify-js": "^2.4.23"
   }
