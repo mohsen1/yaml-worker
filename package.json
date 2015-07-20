@@ -28,6 +28,7 @@
   "devDependencies": {
     "browserify": "^11.0.0",
     "karma": "^0.13.2",
+    "karma-chai": "^0.1.0",
     "karma-cli": "^0.1.0",
     "karma-mocha": "^0.2.0",
     "mocha": "^2.2.5"
