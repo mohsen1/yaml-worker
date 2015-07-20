@@ -1,7 +1,7 @@
 {
   "name": "yaml-worker",
   "main": "browser.js",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "authors": [
     "Mohsen Azimi <me@azimi.me>"
   ],
