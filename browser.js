@@ -20,11 +20,17 @@ onmessage = function onmessage(message) {
   var method = message.data[0];
   var args =message.data.slice(1);
   var result = null;
+  var YAML;
 
-  if (typeof JSYAML[method] === 'function') {
-    result = JSYAML[method].apply(null, args);
-  } else if (typeof YAMLJS[method] === 'function') {
-    result = YAMLJS[method].apply(null, args);
+  // select YAML engine based on method name
+  if (method === 'compose_all' || method === 'compose') {
+    YAML = YAMLJS;
+  } else {
+    YAML = JSYAML;
+  }
+
+  if (typeof YAML[method] === 'function') {
+    result = YAML[method].apply(null, args);
   } else {
     throw new TypeError('bad method name');
   }

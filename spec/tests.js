@@ -17,12 +17,25 @@ describe('YAML Wroker', function () {
   })
 
   it('#load', function (done) {
-    YAMLWoker.postMessage(['load', 'val: 1']);
 
     YAMLWoker.onmessage = function (message) {
       var result = JSON.parse(message.data);
       expect(result).to.deep.equal({val: 1});
       done();
     };
+
+    YAMLWoker.postMessage(['load', 'val: 1']);
   });
+
+  it('#compose', function (done) {
+
+    YAMLWoker.onmessage = function (message) {
+      var result = JSON.parse(message.data);
+      expect(result).to.have.property('tag');
+      expect(result).to.have.property('value');
+      done();
+    };
+
+    YAMLWoker.postMessage(['compose', 'val: 1']);
+  })
 })
