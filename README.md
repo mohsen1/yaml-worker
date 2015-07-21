@@ -1,5 +1,7 @@
 # YAML Worker
 
+[![Build Status](https://travis-ci.org/mohsen1/yaml-worker.svg)](https://travis-ci.org/mohsen1/yaml-worker)
+
 > JS-YAML and YAML-JS wrapper with Worker API
 
 #### Installation
