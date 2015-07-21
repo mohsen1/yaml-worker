@@ -66,7 +66,12 @@ YAMLWorker.prototype.enqueue = function() {
 };
 
 YAMLWorker.prototype.onmessage = function(message) {
-  this.currentTask.cb(null, JSON.parse(message.data));
+  var data = JSON.parse(message.data);
+  if (data.error) {
+    this.currentTask.cb(data.error);
+  } else {
+    this.currentTask.cb(null, data.result);
+  }
   this.currentTask = null;
   this.enqueue();
 };

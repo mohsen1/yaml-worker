@@ -19,6 +19,7 @@ onmessage = function onmessage(message) {
   var method = message.data[0];
   var args =message.data.slice(1);
   var result = null;
+  var error = null;
   var YAML;
 
   // select YAML engine based on method name
@@ -28,11 +29,18 @@ onmessage = function onmessage(message) {
     YAML = JSYAML;
   }
 
-  if (typeof YAML[method] === 'function') {
-    result = YAML[method].apply(null, args);
-  } else {
+  if (typeof YAML[method] !== 'function') {
     throw new TypeError('unknown method name');
   }
 
-  postMessage(JSON.stringify(result));
+  try {
+    result = YAML[method].apply(null, args);
+  } catch (err) {
+    error = err;
+  }
+
+  postMessage(JSON.stringify({
+    result: result,
+    error: error
+  }));
 };
