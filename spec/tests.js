@@ -34,6 +34,35 @@ describe('Basic YAMLWroker methods', function () {
   });
 });
 
+describe('Errors', function () {
+  var worker;
+
+  before(function () {
+    worker = new YAMLWorker();
+  });
+
+  it('calls the callback with an error for invalid YAML', function (done) {
+    var invalidYaml = 'value: 1\n val: 2'; // bad indentation
+    var yamlError = { // copied from jsyaml error thrown
+      "name": "YAMLException",
+      "reason": "bad indentation of a mapping entry",
+      "mark": {
+        "name": null,
+        "buffer": "value: 1\n val: 2\n\u0000",
+        "position": 13,
+        "line": 1,
+        "column": 4
+      },
+      "message": "JS-YAML: bad indentation of a mapping entry at line 2, column 5:\n     val: 2\n        ^"
+    };
+    worker.load(invalidYaml, function (error) {
+      expect(error).to.not.be.null;
+      expect(error).to.deep.equal(yamlError);
+      done();
+    });
+  });
+});
+
 describe('Stress testing', function () {
   var worker;
 

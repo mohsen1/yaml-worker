@@ -31,7 +31,7 @@ onmessage = function onmessage(message) {
   if (typeof YAML[method] === 'function') {
     result = YAML[method].apply(null, args);
   } else {
-    throw new TypeError('bad method name');
+    throw new TypeError('unknown method name');
   }
 
   postMessage(JSON.stringify(result));
