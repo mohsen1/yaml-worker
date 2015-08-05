@@ -20,7 +20,7 @@ function YAMLWorker() {
   this.queue = [];
   this.worker.onmessage = this.onmessage.bind(this);
   this.worker.onerror = this.onerror.bind(this);
-  this.buffer = Object.create(null);
+  this.buffer = new Map();
 }
 
 [
@@ -65,14 +65,18 @@ YAMLWorker.prototype.enqueue = function() {
   this.currentTask = this.queue.shift();
 
   var task = [this.currentTask.method, this.currentTask.arg];
-  var taskString = this.currentTask.method + this.currentTask.arg;
+  var taskString = JSON.stringify(task);
 
-  if (this.buffer[taskString]) {
-    console.log('using bufffer');
-    if (this.buffer[taskString].error) {
-      return this.currentTask.cb(this.buffer[taskString].error);
+  if (this.buffer.has(taskString)) {
+
+    if (this.buffer.get(taskString).error) {
+      this.currentTask.cb(this.buffer.get(taskString).error);
     }
-    return this.currentTask.cb(null, this.buffer[taskString].result);
+
+    this.currentTask.cb(null, this.buffer.get(taskString).result);
+    this.currentTask = null;
+    this.enqueue();
+    return;
   }
 
   this.worker.postMessage(task);
@@ -80,13 +84,13 @@ YAMLWorker.prototype.enqueue = function() {
 
 YAMLWorker.prototype.onmessage = function(message) {
   var task = [this.currentTask.method, this.currentTask.arg];
-  var taskString = this.currentTask.method + this.currentTask.arg;
+  var taskString = JSON.stringify(task);
 
   if (message.data.error) {
-    this.buffer[taskString] = {error: message.data.error};
+    this.buffer.set(taskString, {error: message.data.error});
     this.currentTask.cb(message.data.error);
   } else {
-    this.buffer[taskString] = {result: message.data.result};
+    this.buffer.set(taskString, {result: message.data.result});
     this.currentTask.cb(null, message.data.result);
   }
   this.currentTask = null;
