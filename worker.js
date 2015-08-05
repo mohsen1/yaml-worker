@@ -39,8 +39,8 @@ onmessage = function onmessage(message) {
     error = err;
   }
 
-  postMessage(JSON.stringify({
+  postMessage({
     result: result,
     error: error
-  }));
+  });
 };
