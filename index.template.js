@@ -20,6 +20,7 @@ function YAMLWorker() {
   this.queue = [];
   this.worker.onmessage = this.onmessage.bind(this);
   this.worker.onerror = this.onerror.bind(this);
+  this.buffer = new Map();
 }
 
 [
@@ -62,13 +63,28 @@ YAMLWorker.prototype.enqueue = function() {
   }
 
   this.currentTask = this.queue.shift();
-  this.worker.postMessage([this.currentTask.method, this.currentTask.arg]);
+
+  var task = [this.currentTask.method, this.currentTask.arg];
+
+  if (this.buffer.has(task)) {
+    console.log('Using buffer');
+    if (this.buffer.get(task).error) {
+      return this.currentTask.cb(this.buffer.get(task).error);
+    }
+    return this.currentTask.cb(null, this.buffer.get(task).result);
+  }
+
+  this.worker.postMessage(task);
 };
 
 YAMLWorker.prototype.onmessage = function(message) {
+  var task = [this.currentTask.method, this.currentTask.arg];
+
   if (message.data.error) {
+    this.buffer.set(task, {error: message.data.error});
     this.currentTask.cb(message.data.error);
   } else {
+    this.buffer.set(task, {result: message.data.result});
     this.currentTask.cb(null, message.data.result);
   }
   this.currentTask = null;
