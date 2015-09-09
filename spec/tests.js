@@ -121,7 +121,7 @@ describe('Stress testing errors', function () {
 
     it('load 1', function(done){
       worker.load(invalidYaml1, function (err, res) {
-        expect(err).to.deep.equal({
+        var referror = {
           "name": "YAMLException",
           "reason": "bad indentation of a mapping entry",
           "mark": {
@@ -132,7 +132,12 @@ describe('Stress testing errors', function () {
             "column": 4
           },
           "message": "bad indentation of a mapping entry at line 2, column 5:\n     val: 2\n        ^"
-        });
+        };
+
+        expect(err.mark).to.deep.equal(referror.mark);
+        expect(err.name).to.equal(referror.name);
+        expect(err.reason).to.equal(referror.reason);
+        expect(err.message).to.equal(referror.message);
         expect(res).to.equal.null;
         done();
       });
@@ -140,7 +145,7 @@ describe('Stress testing errors', function () {
 
     it('load 2', function(done){
       worker.load(invalidYaml2, function (err, res) {
-        expect(err).to.deep.equal({
+        var referror = {
           "name": "YAMLException",
           "reason": "bad indentation of a mapping entry",
           "mark": {
@@ -151,15 +156,20 @@ describe('Stress testing errors', function () {
             "column": 4
           },
           "message": "bad indentation of a mapping entry at line 2, column 5:\n     val: 2\n        ^"
-        });
-        expect(res).to.be.nu
+        };
+
+        expect(err.mark).to.deep.equal(referror.mark);
+        expect(err.name).to.equal(referror.name);
+        expect(err.reason).to.equal(referror.reason);
+        expect(err.message).to.equal(referror.message);
+        expect(res).to.equal.null;
         done();
       });
     });
 
     it('load 3', function(done){
       worker.load(invalidYaml3, function (err, res) {
-        expect(err).to.deep.equal({
+        var referror = {
           "name": "YAMLException",
           "reason": "bad indentation of a mapping entry",
           "mark": {
@@ -170,7 +180,12 @@ describe('Stress testing errors', function () {
             "column": 2
           },
           "message": "bad indentation of a mapping entry at line 2, column 3:\n     v: 2\n      ^"
-        });
+        };
+
+        expect(err.mark).to.deep.equal(referror.mark);
+        expect(err.name).to.equal(referror.name);
+        expect(err.reason).to.equal(referror.reason);
+        expect(err.message).to.equal(referror.message);
         expect(res).to.equal.null;
         done();
       });
