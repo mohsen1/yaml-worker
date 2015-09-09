@@ -57,25 +57,20 @@ if(char in ESCAPE_REPLACEMENTS){chunks.push(ESCAPE_REPLACEMENTS[char]);this.forw
       arg: arg,
       cb: cb
     });
-    // console.log('queued task');
     this.enqueue();
   };
 });
 
-
 YAMLWorker.prototype.enqueue = function() {
-
-  // console.log('enqueuing');
 
   // if queue is empty do nothing.
   if (!this.queue.length) {
-    // console.log('no queue item');
+    this.currentTask = null;
     return;
   }
 
   // if there is a currentTask do nothing
   if (this.currentTask) {
-    // console.log('currentTask exists');
     return;
   }
 
@@ -86,13 +81,9 @@ YAMLWorker.prototype.enqueue = function() {
 
   if (this.buffer.has(taskString)) {
 
-    // console.log('buffer has the task');
-
     if (this.buffer.get(taskString).error) {
-      // console.log('there\'s an error in buffer for this task');
       this.currentTask.cb(this.buffer.get(taskString).error);
     } else {
-      // console.log('resolving with buffered result')
       this.currentTask.cb(null, this.buffer.get(taskString).result);
     }
 
@@ -108,14 +99,10 @@ YAMLWorker.prototype.onmessage = function(message) {
   var task = [this.currentTask.method, this.currentTask.arg];
   var taskString = JSON.stringify(task);
 
-  // console.log('worker on message');
-
   if (message.data.error) {
-    // console.log('worker on message data has error');
     this.buffer.set(taskString, {error: message.data.error});
     this.currentTask.cb(message.data.error);
   } else {
-    // console.log('worker on message data has no error');
     this.buffer.set(taskString, {result: message.data.result});
     this.currentTask.cb(null, message.data.result);
   }
@@ -124,12 +111,7 @@ YAMLWorker.prototype.onmessage = function(message) {
 };
 
 YAMLWorker.prototype.onerror = function(error) {
-  var task = [this.currentTask.method, this.currentTask.arg];
-  var taskString = JSON.stringify(task);
-
-  // console.log('worker on error');
-
-  this.currentTask.cb('error');
+  this.currentTask.cb(error);
   this.currentTask = null;
   this.enqueue();
 };

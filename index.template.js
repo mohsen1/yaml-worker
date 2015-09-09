@@ -54,6 +54,7 @@ YAMLWorker.prototype.enqueue = function() {
 
   // if queue is empty do nothing.
   if (!this.queue.length) {
+    this.currentTask = null;
     return;
   }
 
@@ -71,9 +72,10 @@ YAMLWorker.prototype.enqueue = function() {
 
     if (this.buffer.get(taskString).error) {
       this.currentTask.cb(this.buffer.get(taskString).error);
+    } else {
+      this.currentTask.cb(null, this.buffer.get(taskString).result);
     }
 
-    this.currentTask.cb(null, this.buffer.get(taskString).result);
     this.currentTask = null;
     this.enqueue();
     return;
