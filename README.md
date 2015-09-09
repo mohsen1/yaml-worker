@@ -28,5 +28,13 @@ worker.load('yaml: true', function(error, result) {
 });
 ```
 
+### Development
+
+To run the test run
+
+```
+karma start --single-run=true
+```
+
 ### License
 MIT
