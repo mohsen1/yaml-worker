@@ -1,5 +1,7 @@
-var YAMLJS = require('yaml-js');
-var JSYAML = require('js-yaml');
+'use strict';
+
+importScripts('bower_components/yaml-js/yaml.js');
+importScripts('bower_components/js-yaml/dist/js-yaml.js');
 
 /**
  * Worker message listener.
@@ -24,9 +26,9 @@ onmessage = function onmessage(message) {
 
   // select YAML engine based on method name
   if (method === 'compose_all' || method === 'compose') {
-    YAML = YAMLJS;
+    YAML = yaml;
   } else {
-    YAML = JSYAML;
+    YAML = jsyaml;
   }
 
   if (typeof YAML[method] !== 'function') {

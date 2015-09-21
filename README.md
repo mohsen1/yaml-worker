@@ -21,7 +21,7 @@ bower install --save yaml-worker
 Use `YAMLWorker`:
 
 ```js
-var worker = new YAMLWorker();
+var worker = new YAMLWorker('bower_components/yaml-worker/');
 
 worker.load('yaml: true', function(error, result) {
   console.log(result); // {"yaml": true}

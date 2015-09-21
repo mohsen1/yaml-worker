@@ -7,7 +7,7 @@ var worker;
 describe('Basic YAMLWroker methods', function () {
 
   before(function () {
-    worker = new YAMLWorker();
+    worker = new YAMLWorker('../');
   });
 
   it('#load', function (done) {

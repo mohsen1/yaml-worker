@@ -20,5 +20,9 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "js-yaml": "~3.4.2",
+    "yaml-js": "~0.1.3"
+  }
 }
