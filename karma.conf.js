@@ -1,6 +1,7 @@
 // Karma configuration
 // Generated on Tue Sep 02 2014 23:03:20 GMT+0200 (CEST)
 
+var path = require('path');
 module.exports = function(config) {
   config.set({
 
@@ -15,9 +16,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'index.js',
-      'spec/tests.js'
+      {pattern: 'index.js', included: true},
+      {pattern: 'spec/tests.js', included: true},
+      {pattern: 'bower_components/**/*.js', included: false},
+      {pattern: 'worker.js', included: false},
     ],
+
+    proxies: {
+      '/worker.js': path.join(__dirname, 'worker.js'),
+      '/bower_components/': path.join(__dirname, 'bower_components')
+    },
 
 
     // list of files to exclude
