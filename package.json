@@ -1,6 +1,6 @@
 {
   "name": "yaml-worker",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "JS-YAML and YAML-JS wrapper with Worker API",
   "main": "index.js",
   "scripts": {
