@@ -94,3 +94,7 @@ YAMLWorker.prototype.onerror = function(error) {
   this.currentTask = null;
   this.enqueue();
 };
+
+if (typeof module !== 'undefined') {
+  module.exports = YAMLWorker;
+}
