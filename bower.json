@@ -1,7 +1,7 @@
 {
   "name": "yaml-worker",
   "main": "index.js",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "authors": [
     "Mohsen Azimi <me@azimi.me>"
   ],
@@ -21,7 +21,7 @@
     "tests"
   ],
   "dependencies": {
-    "js-yaml": "~3.4.2",
+    "js-yaml": "^3.5.2",
     "yaml-js": "~0.1.3"
   }
 }
